@@ -6,7 +6,7 @@ from django.views.generic.edit import FormMixin
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 
-from models import Course, Comment
+from web.models import Course, Comment
 from web.forms import UserLoginForm, UserRegistrationForm, UserProfileForm, CommentForm, CourseForm
 
 
