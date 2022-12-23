@@ -14,12 +14,12 @@ class UserLoginForm(AuthenticationForm):
 
 
 class UserRegistrationForm(UserCreationForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Введите имя'}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Введите фамилию'}))
-    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Введите имя пользователя'}))
-    email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder': 'Введите адрес эл. почты'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Подтвердите пароль'}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Input your firstname'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Input your secondname'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Input your username'}))
+    email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder': 'Input your email'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Input your password'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Repeat your password'}))
 
     class Meta:
         model = User
