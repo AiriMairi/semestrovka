@@ -20,7 +20,7 @@ class UserInfo(models.Model):
 
 
 class Course(models.Model):
-    user = models.ForeignKey(User, verbose_name='пользователь', related_name='user_posts', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='пользователь', related_name='user_courses', on_delete=models.CASCADE)
     tags = TaggableManager()
     title = models.CharField(max_length=50, verbose_name='название')
     slug = models.SlugField(max_length=250, verbose_name='слаг', unique_for_date='created_at')
@@ -29,8 +29,8 @@ class Course(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name_plural = 'Посты'
-        verbose_name = 'Пост'
+        verbose_name_plural = 'Курсы'
+        verbose_name = 'Курс'
 
 
 class Comment(models.Model):
@@ -57,9 +57,9 @@ class RatingStar(models.Model):
 
 
 class Rating(models.Model):
-    course = models.ForeignKey(Course, verbose_name='курс', related_name='course_comments', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, verbose_name='пользователь', related_name='user_comments', on_delete=models.CASCADE)
-    star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name='звезда')
+    course = models.ForeignKey(Course, verbose_name='курс', related_name='course_rating', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='пользователь', related_name='user_rating', on_delete=models.CASCADE)
+    star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, related_name='rating_star', verbose_name='звезда')
 
     def __str__(self):
         return f'{self.star} - {self.course}'
