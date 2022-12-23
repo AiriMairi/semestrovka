@@ -7,11 +7,11 @@ from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 
 from models import Course, Comment
-from web.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+from web.forms import UserLoginForm, UserRegistrationForm, UserProfileForm, CommentForm, CourseForm
 
 
 class CourseListView(ListView):
-    template_name = 'website/main_page.html'
+    template_name = 'web/index.html'
     model = Course
     context_object_name = 'posts'
     slug_field = 'id'
@@ -19,7 +19,7 @@ class CourseListView(ListView):
 
 
 class CourseCreateView(CreateView):
-    template_name = 'website/post_add.html'
+    template_name = 'web/add_course.html'
     form_class = CourseForm
 
     def form_valid(self, form):
@@ -33,7 +33,7 @@ class CourseCreateView(CreateView):
 
 # FormMixin - тк в DetailView нет form_class
 class CourseDetailView(FormMixin, DetailView):
-    template_name = 'website/single.html'
+    template_name = 'web/course-single.html'
     form_class = CommentForm
     model = Course
     slug_field = 'id'
@@ -59,8 +59,8 @@ class CourseDetailView(FormMixin, DetailView):
 
 
 class CourseDeleteView(DeleteView):
-    template_name = 'website/post_delete.html'
-    model = Post
+    template_name = 'web/course_delete.html'
+    model = Course
     slug_field = 'id'
     slug_url_kwarg = 'id'
 
@@ -69,7 +69,7 @@ class CourseDeleteView(DeleteView):
 
 
 class CourseUpdateView(UpdateView):
-    template_name = 'website/post_edit.html'
+    template_name = 'web/course_edit.html'
     model = Course
     form_class = CourseForm
     slug_field = 'id'

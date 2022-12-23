@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django import forms
 
-from web.models import User, Course, Comment
+from web.models import User, Course, Comment, RatingStar, Rating
 
 
 class UserLoginForm(AuthenticationForm):
@@ -36,10 +36,10 @@ class UserProfileForm(UserChangeForm):
         fields = ('username', 'email', 'first_name', 'last_name', 'image')
 
 
-class PostForm(forms.ModelForm):
+class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ('title', 'tags', 'category', 'text', 'image')
+        fields = ('title', 'tags', 'text', 'image')
 
 
 class CommentForm(forms.ModelForm):
@@ -49,3 +49,11 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'text': forms.TextInput(attrs={'class': 'form-input'}),
         }
+
+
+class RatingForm(forms.ModelForm):
+    star = forms.ModelChoiceField(queryset=RatingStar.objects.all(), widget=forms.RadioSelect(), empty_label=None)
+
+    class Meta:
+        model = Rating
+        fields = ('star',)
