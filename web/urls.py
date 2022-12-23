@@ -18,7 +18,13 @@ from django.urls import path
 
 from . import views
 
-
 urlpatterns = [
-    path('', views.index, name='index')
+    path('', views.CourseListView.as_view(), name='main_page'),
+    path('add_course', views.CourseListView.as_view(), name='course_add'),
+    path('<slug:slug>/<int:id>', views.CourseDetailView.as_view(), name='single_course'),
+    path('<slug:slug>/<int:id>/delete', views.CourseDeleteView.as_view(), name='course_delete'),
+    path('<slug:slug>/<int:id>/edit', views.CourseUpdateView.as_view(), name='course_update'),
+    path('<slug:slug>/<int:course_id>/comment_delete/<int:id>/', views.CommentDeleteView.as_view(),
+         name='delete_comment'),
+    path('<slug:slug>/<int:course_id>/comment_edit/<int:id>/', views.CommentUpdateView.as_view(), name='update_comment'),
 ]
