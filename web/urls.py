@@ -27,4 +27,8 @@ urlpatterns = [
     path('<slug:slug>/<int:course_id>/comment_delete/<int:id>/', views.CommentDeleteView.as_view(),
          name='delete_comment'),
     path('<slug:slug>/<int:course_id>/comment_edit/<int:id>/', views.CommentUpdateView.as_view(), name='update_comment'),
+    path('login/', views.login, name='login'),
+    path('register/', views.register, name='register'),
+    path('profile/', views.profile, name='profile'),
+    path('logout/', views.logout, name='logout'),
 ]
