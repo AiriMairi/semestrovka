@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django import forms
 
-from web.models import User
+from web.models import User, Course, Comment
 
 
 class UserLoginForm(AuthenticationForm):
@@ -34,3 +34,18 @@ class UserProfileForm(UserChangeForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name', 'last_name', 'image')
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ('title', 'tags', 'category', 'text', 'image')
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text',)
+        widgets = {
+            'text': forms.TextInput(attrs={'class': 'form-input'}),
+        }
