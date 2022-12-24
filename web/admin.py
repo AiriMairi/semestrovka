@@ -20,9 +20,10 @@ class UserInfoAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['user', 'tags', 'title', 'created_date', 'text', 'image']
-    fields = ['user', 'tags', 'title', 'created_date', 'text', 'image']
+    list_display = ['user', 'tags', 'title', 'text', 'image', 'slug']
+    fields = ['user', 'tags', 'title', 'text', 'image', 'slug']
     ordering = ['title']
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(Comment)
