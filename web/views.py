@@ -78,7 +78,7 @@ class CourseDetailView(FormMixin, DetailView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('single_post', args=(self.kwargs['slug'], self.kwargs['id']))
+        return reverse('single_course', args=(self.kwargs['slug'], self.kwargs['id']))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -132,7 +132,7 @@ class CourseUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('single_post', args=(self.object.slug, self.object.id))
+        return reverse('single_course', args=(self.object.slug, self.object.id))
 
 
 class CommentUpdateView(UpdateView):
@@ -147,13 +147,13 @@ class CommentUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('detail_game', args=(self.kwargs['slug'], self.kwargs['game_id']))
+        return reverse('course_delete', args=(self.kwargs['slug'], self.kwargs['course_id']))
 
     def get_context_data(self, **kwargs):
         return {
             **super(CommentUpdateView, self).get_context_data(**kwargs),
             'slug': self.kwargs['slug'],
-            'game_id': self.kwargs['game_id']
+            'course_id': self.kwargs['id']
         }
 
 
@@ -163,7 +163,7 @@ class CommentDeleteView(DeleteView):
     slug_url_kwarg = 'id'
 
     def get_success_url(self):
-        return reverse('detail_game', args=(self.kwargs['slug'], self.kwargs['game_id']))
+        return reverse('course_delete', args=(self.kwargs['slug'], self.kwargs['course_id']))
 
 
 def login(request):

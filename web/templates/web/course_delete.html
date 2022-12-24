@@ -4,15 +4,13 @@
 {% block content %}
     <section class="site-section" id="about-section">
         <div class="container">
-            <div class="row">
-                <div class="col-12 mb-3"><h1>Вы действительно хотите удалить пост?</h1></div>
-                <div class="col-md-6 mb-5">
-                    <form action="" method="post">
-                        {{ form.as_p }}
-                        {% csrf_token %}
-                        <button class="btn btn-danger">Удалить</button>
-                    </form>
-                </div>
+            <div style="margin-top: 40px"><h1>Вы действительно хотите удалить пост?</h1></div>
+            <div>
+                <form action="" method="post">
+                    {{ form.as_p }}
+                    {% csrf_token %}
+                    <button class="btn btn-danger">Удалить</button>
+                </form>
             </div>
         </div>
     </section>

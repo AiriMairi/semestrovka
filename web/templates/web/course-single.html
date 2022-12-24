@@ -55,14 +55,26 @@
                     <div class="col-lg-5 ml-auto align-self-center">
                         <h2 class="section-title-underline mb-5">
                             <span>Course Details</span>
+                            {% if user.is_authenticated and user.id == course.user_id %}
+                                <p>
+                                    <button class="btn btn-outline-success btn-sm"><a
+                                            href="{% url 'course_update' slug=course.slug id=course.id %}">Edit post</a>
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm"><a
+                                            href="{% url 'course_delete' slug=course.slug id=course.id %}">Delete
+                                        post</a></button>
+                                </p>
+                            {% endif %}
                         </h2>
 
                         <p><strong class="text-black d-block">Teacher:</strong>{{ course.user }}</p>
-                        <p class="mb-5"><strong class="text-black d-block">Created:</strong>{{ course.created_date }}</p>
+                        <p class="mb-5"><strong class="text-black d-block">Created:</strong>{{ course.created_date }}
+                        </p>
                         Description:
                         <p>{{ course.text }}</p>
 
                         <ul class="ul-check primary list-unstyled mb-5">
+                            <li>The lowest price ever - only {{ course.price }} rub</li>
                             <form action="{% url 'add_rating' %}" method="post" name="rating">
                                 <b>Рейтинг:</b>
                                 {% csrf_token %}
@@ -73,7 +85,7 @@
                                         <label for="rating{{ v }}"{{ k }}></label>
                                     {% endfor %}
                                 </span>
-                            <span class="editContent">4.0</span>
+                                <span class="editContent">4.0</span>
                             </form>
                         </ul>
 
@@ -86,34 +98,71 @@
             </div>
         </div>
 
-        <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-mortarboard"></span>
-                        <h3>Our Philosphy</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure
-                            repellat quis delectus ea? Dolore, amet reprehenderit.</p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-school-material"></span>
-                        <h3>Academics Principle</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure
-                            repellat quis delectus ea?
-                            Dolore, amet reprehenderit.</p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-library"></span>
-                        <h3>Key of Success</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure
-                            repellat quis delectus ea?
-                            Dolore, amet reprehenderit.</p>
+
+        <div class="container">
+            <div class="row">
+                <h3 class="mb-5">Comments - {{ course.course_comments.all.count }}</h3>
+                {% for comment in course.course_comments.all %}
+                    <ul class="comment-list">
+                        <li class="comment">
+                            <div class="vcard bio">
+                                <img src="{% if comment.user.image %}{{ comment.user.image.url }}"{% endif %}
+                                     alt="user-img">
+                            </div>
+                            <div class="comment-body">
+                                <h3>{{ comment.user }}</h3>
+                                <div class="meta">{{ comment.created_at }}</div>
+                                <p>{{ comment.text }}</p>
+                                {% if user.is_authenticated and user.id == comment.user_id %}
+                                    <a href="{% url 'update_comment' course.slug course.id comment.id %}">Edit</a>
+                                    <form method="POST"
+                                          action="{% url 'delete_comment' course.slug course.id comment.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-success">Delete</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </li>
+                    </ul>
+                {% endfor %}
+
+                <div class="comment-form-wrap pt-5">
+                    <h3 class="mb-5">Leave a comment</h3>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-success">Add</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                            <span class="icon flaticon-mortarboard"></span>
+                            <h3>Our Philosphy</h3>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure
+                                repellat quis delectus ea? Dolore, amet reprehenderit.</p>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                            <span class="icon flaticon-school-material"></span>
+                            <h3>Academics Principle</h3>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure
+                                repellat quis delectus ea?
+                                Dolore, amet reprehenderit.</p>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                            <span class="icon flaticon-library"></span>
+                            <h3>Key of Success</h3>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure
+                                repellat quis delectus ea?
+                                Dolore, amet reprehenderit.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-
     </body>
 {% endblock %}
