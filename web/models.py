@@ -23,10 +23,10 @@ class Course(models.Model):
     user = models.ForeignKey(User, verbose_name='пользователь', related_name='user_courses', on_delete=models.CASCADE)
     tags = TaggableManager()
     title = models.CharField(max_length=50, verbose_name='название')
-    slug = models.SlugField(max_length=250, verbose_name='слаг', unique_for_date='created_at')
+    created_date = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(max_length=250, verbose_name='слаг', unique_for_date='created_date')
     text = models.TextField(verbose_name='описание')
     image = models.ImageField(null=True, blank=True, upload_to='image_courses', verbose_name='картинка')
-    create_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = 'Курсы'
