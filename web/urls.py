@@ -20,15 +20,16 @@ from . import views
 
 urlpatterns = [
     path('', views.CourseListView.as_view(), name='main_page'),
+    path('<slug:tag_slug>', views.TagIndexView.as_view(), name='courses_by_tag'),
     path('add_course', views.CourseListView.as_view(), name='course_add'),
     path('<slug:slug>/<int:id>', views.CourseDetailView.as_view(), name='single_course'),
     path('<slug:slug>/<int:id>/delete', views.CourseDeleteView.as_view(), name='course_delete'),
     path('<slug:slug>/<int:id>/edit', views.CourseUpdateView.as_view(), name='course_update'),
-    path('<slug:slug>/<int:course_id>/comment_delete/<int:id>/', views.CommentDeleteView.as_view(),
+    path('<slug:slug>/<int:course_id>/comment_delete/<int:id>', views.CommentDeleteView.as_view(),
          name='delete_comment'),
     path('<slug:slug>/<int:course_id>/comment_edit/<int:id>/', views.CommentUpdateView.as_view(), name='update_comment'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
-    path('logout/', views.logout, name='logout'),
+    path('logout/', views.logout, name='logout')
 ]

@@ -39,7 +39,7 @@ class UserProfileForm(UserChangeForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ('title', 'tags', 'text', 'image')
+        fields = ('title', 'tags', 'price', 'text', 'image')
 
 
 class CommentForm(forms.ModelForm):

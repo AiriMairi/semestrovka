@@ -10,12 +10,33 @@ from web.models import Course, Comment
 from web.forms import UserLoginForm, UserRegistrationForm, UserProfileForm, CommentForm, CourseForm
 
 
+class TagIndexView(ListView):
+    model = Course
+    template_name = 'web/index.html'
+    context_object_name = 'courses'
+
+    def get_queryset(self):
+        return Course.objects.filter(tags__slug=self.kwargs.get('tag_slug'))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        return {
+            **super(TagIndexView, self).get_context_data(**kwargs),
+            'most_popular_tags': Course.tags.most_common()[:3],
+        }
+
+
 class CourseListView(ListView):
     template_name = 'web/index.html'
     model = Course
-    context_object_name = 'posts'
+    context_object_name = 'courses'
     slug_field = 'id'
     slug_url_kwarg = 'id'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        return {
+            **super(CourseListView, self).get_context_data(**kwargs),
+            'most_popular_tags': Course.tags.most_common()[:3],
+        }
 
 
 class CourseCreateView(CreateView):
