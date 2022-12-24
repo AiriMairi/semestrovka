@@ -5,7 +5,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='users_avatars', blank=True, null=True)
+    image = models.ImageField(upload_to='users_avatars', blank=True, null=True)
 
 
 class UserInfo(models.Model):
