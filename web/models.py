@@ -22,6 +22,8 @@ class UserInfo(models.Model):
 class Course(models.Model):
     user = models.ForeignKey(User, verbose_name='пользователь', related_name='user_courses', on_delete=models.CASCADE)
     tags = TaggableManager()
+    price = models.IntegerField(null=True, blank=True, verbose_name='цена',
+                                validators=[MinValueValidator(1), MaxValueValidator(150000)])
     title = models.CharField(max_length=50, verbose_name='название')
     created_date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=250, verbose_name='слаг', unique_for_date='created_date')
