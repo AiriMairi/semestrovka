@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'school.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "test-db",
+        "NAME": "test1",
         "USER": "postgres",
         "PASSWORD": "17456",
         "HOST": "localhost",
@@ -134,3 +134,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'web.User'
 
 LOGIN_URL = '/stepok/login/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

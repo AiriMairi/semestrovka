@@ -109,9 +109,9 @@
                 </div>
                 <div class="ml-auto">
                     <div class="social-wrap">
-                        <a href="#"><span class="icon-facebook"></span></a>
-                        <a href="#"><span class="icon-twitter"></span></a>
-                        <a href="#"><span class="icon-linkedin"></span></a>
+                        <a href="https://ru-ru.facebook.com/"><span class="icon-facebook"></span></a>
+                        <a href="https://twitter.com/?lang=ru"><span class="icon-twitter"></span></a>
+                        <a href="https://ru.linkedin.com/"><span class="icon-linkedin"></span></a>
 
                         <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
                                 class="icon-menu h3"></span></a>
@@ -150,9 +150,10 @@
             <div class="row">
                 <div class="col-lg-3">
                     <p class="mb-4"><img src="{% static 'images/logo.png' %}" alt="Image" class="img-fluid"></p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto
-                        iure.</p>
-                    <p><a href="#">Learn More</a></p>
+                    <p>This is website is the best way to get knowledge and get better.</p>
+                    <p>
+                        <a href="https://img.freepik.com/free-vector/neon-style-coming-soon-glowing-background-design_1017-25516.jpg?w=1380&t=st=1671843808~exp=1671844408~hmac=4f1d9a21332a19fd057fb3d9052ec2817055481c86b478cbd4d5405bd716d47f">Learn
+                            More</a></p>
                 </div>
                 <div class="col-lg-3">
                     <h3 class="footer-heading"><span>Our Campus</span></h3>
@@ -168,12 +169,9 @@
                 <div class="col-lg-3">
                     <h3 class="footer-heading"><span>Our Courses</span></h3>
                     <ul class="list-unstyled">
-                        <li><a href="#">Math</a></li>
-                        <li><a href="#">Science &amp; Engineering</a></li>
-                        <li><a href="#">Arts &amp; Humanities</a></li>
-                        <li><a href="#">Economics &amp; Finance</a></li>
-                        <li><a href="#">Business Administration</a></li>
-                        <li><a href="#">Computer Science</a></li>
+                        {% for course in courses %}
+                        <li><a href="{% url 'single_course' course.slug course.id %}">{{ course.title }}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="col-lg-3">
@@ -192,12 +190,7 @@
                 <div class="col-12">
                     <div class="copyright">
                         <p>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                            All rights reserved | This template is made with <i class="icon-heart"
-                                                                                aria-hidden="true"></i> by <a
-                                href="https://colorlib.com" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            This website made for term project. By AiriMairi.
                         </p>
                     </div>
                 </div>
