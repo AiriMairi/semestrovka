@@ -21,6 +21,7 @@ from . import views
 urlpatterns = [
     path('', views.CourseListView.as_view(), name='main_page'),
     path('<slug:tag_slug>', views.TagIndexView.as_view(), name='courses_by_tag'),
+    path("add-rating/", views.AddStarRating.as_view(), name='add_rating'),
     path('add_course', views.CourseListView.as_view(), name='course_add'),
     path('<slug:slug>/<int:id>', views.CourseDetailView.as_view(), name='single_course'),
     path('<slug:slug>/<int:id>/delete', views.CourseDeleteView.as_view(), name='course_delete'),

@@ -1,13 +1,15 @@
+from django.http import HttpResponse
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
 from django.utils.text import slugify
+from django.views import View
 from django.views.generic import UpdateView, DeleteView, CreateView, ListView, DetailView
 from django.views.generic.edit import FormMixin
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 
-from web.models import Course, Comment
-from web.forms import UserLoginForm, UserRegistrationForm, UserProfileForm, CommentForm, CourseForm
+from web.models import Course, Comment, Rating
+from web.forms import UserLoginForm, UserRegistrationForm, UserProfileForm, CommentForm, CourseForm, RatingForm
 
 
 class TagIndexView(ListView):
@@ -76,7 +78,36 @@ class CourseDetailView(FormMixin, DetailView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('single_post', args=(self.kwargs['slug'], self.kwargs['id']))
+        return reverse('single_course', args=(self.kwargs['slug'], self.kwargs['id']))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['star_form'] = RatingForm()
+        return context
+
+
+class AddStarRating(View):
+    """Добавление рейтинга фильму"""
+
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    def post(self, request):
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            Rating.objects.update_or_create(
+                ip=self.get_client_ip(request),
+                movie_id=int(request.POST.get("course")),
+                defaults={'star_id': int(request.POST.get("star"))}
+            )
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(status=400)
 
 
 class CourseDeleteView(DeleteView):
@@ -101,7 +132,7 @@ class CourseUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('single_post', args=(self.object.slug, self.object.id))
+        return reverse('single_course', args=(self.object.slug, self.object.id))
 
 
 class CommentUpdateView(UpdateView):
@@ -116,13 +147,13 @@ class CommentUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('detail_game', args=(self.kwargs['slug'], self.kwargs['game_id']))
+        return reverse('course_delete', args=(self.kwargs['slug'], self.kwargs['course_id']))
 
     def get_context_data(self, **kwargs):
         return {
             **super(CommentUpdateView, self).get_context_data(**kwargs),
             'slug': self.kwargs['slug'],
-            'game_id': self.kwargs['game_id']
+            'course_id': self.kwargs['id']
         }
 
 
@@ -132,7 +163,7 @@ class CommentDeleteView(DeleteView):
     slug_url_kwarg = 'id'
 
     def get_success_url(self):
-        return reverse('detail_game', args=(self.kwargs['slug'], self.kwargs['game_id']))
+        return reverse('course_delete', args=(self.kwargs['slug'], self.kwargs['course_id']))
 
 
 def login(request):

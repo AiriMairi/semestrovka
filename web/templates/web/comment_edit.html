@@ -2,10 +2,10 @@
 
 
 {% block content %}
-    <a href="{% url 'single_course' slug post_id  %}">Назад</a>
+    <a href="{% url 'single_course' slug course_id  %}">Назад</a>
     <br>
     <br>
-    <form action="" method="post" class="comment_form">
+    <form action="" method="post" class="comment_form" style="margin-left: 100px">
         {% csrf_token %}
         {{ form.body }}
         <button class="btn btn-success">Сохранить</button>
