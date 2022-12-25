@@ -8,7 +8,7 @@ from django.views.generic.edit import FormMixin
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 
-from web.models import Course, Comment, Rating
+from web.models import Course, Comment, Rating, Category
 from web.forms import UserLoginForm, UserRegistrationForm, UserProfileForm, CommentForm, CourseForm, RatingForm
 
 
@@ -38,6 +38,7 @@ class CourseListView(ListView):
         return {
             **super(CourseListView, self).get_context_data(**kwargs),
             'most_popular_tags': Course.tags.most_common()[:3],
+            'category': Category.objects.all()
         }
 
 

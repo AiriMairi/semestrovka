@@ -48,6 +48,8 @@ class Course(models.Model):
         verbose_name_plural = 'Курсы'
         verbose_name = 'Курс'
 
+    def __str__(self):
+        return self.title
 
 class Comment(models.Model):
     course = models.ForeignKey(Course, verbose_name='курс', related_name='course_comments', on_delete=models.CASCADE)
