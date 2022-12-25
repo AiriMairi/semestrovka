@@ -72,18 +72,13 @@ class CourseDetailView(FormMixin, DetailView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.post = self.get_object()
+        self.object.course = self.get_object()
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('single_course', args=(self.kwargs['slug'], self.kwargs['id']))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['star_form'] = RatingForm()
-        return context
 
 
 class AddStarRating(View):
@@ -147,7 +142,7 @@ class CommentUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('course_delete', args=(self.kwargs['slug'], self.kwargs['course_id']))
+        return reverse('single_course', args=(self.kwargs['slug'], self.kwargs['course_id']))
 
     def get_context_data(self, **kwargs):
         return {
@@ -163,7 +158,7 @@ class CommentDeleteView(DeleteView):
     slug_url_kwarg = 'id'
 
     def get_success_url(self):
-        return reverse('course_delete', args=(self.kwargs['slug'], self.kwargs['course_id']))
+        return reverse('single_course', args=(self.kwargs['slug'], self.kwargs['course_id']))
 
 
 def login(request):
