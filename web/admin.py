@@ -20,8 +20,8 @@ class UserInfoAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['user', 'tags', 'title', 'text', 'image', 'slug']
-    fields = ['user', 'tags', 'title', 'text', 'image', 'slug', 'category']
+    list_display = ['user', 'tags', 'title', 'text', 'image', 'slug', 'price']
+    fields = ['user', 'tags', 'title', 'text', 'image', 'slug', 'category', 'price']
     ordering = ['title']
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ['category']
