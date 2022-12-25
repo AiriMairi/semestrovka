@@ -20,6 +20,14 @@ class UserInfo(models.Model):
         verbose_name = 'Информация о пользователе'
 
 
+class CourseCategory(models.Model):
+    name = models.CharField(max_length=64, unique=True, verbose_name='Название')
+    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+
+    def __str__(self):
+        return self.name
+
+
 class Course(models.Model):
     user = models.ForeignKey(User, verbose_name='пользователь', related_name='user_courses', on_delete=models.CASCADE)
     tags = TaggableManager()
@@ -30,6 +38,7 @@ class Course(models.Model):
     slug = models.SlugField(max_length=250, verbose_name='слаг', unique_for_date='created_date')
     text = models.TextField(verbose_name='описание')
     image = models.ImageField(null=True, blank=True, upload_to='image_courses', verbose_name='картинка')
+    category = models.ManyToManyField(CourseCategory)
 
     class Meta:
         verbose_name_plural = 'Курсы'
