@@ -13,22 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 
 from . import views
 
 urlpatterns = [
     path('', views.CourseListView.as_view(), name='main_page'),
-    path('add_course', views.CourseCreateView.as_view(), name='course_create'),
+    path('add_course', login_required(views.CourseCreateView.as_view()), name='course_create'),
     path('<slug:tag_slug>', views.TagIndexView.as_view(), name='courses_by_tag'),
-    path("add-rating", views.AddStarRating.as_view(), name='add_rating'),
     path('<slug:slug>/<int:id>', views.CourseDetailView.as_view(), name='single_course'),
-    path('<slug:slug>/<int:id>/delete', views.CourseDeleteView.as_view(), name='course_delete'),
-    path('<slug:slug>/<int:id>/edit', views.CourseUpdateView.as_view(), name='course_update'),
-    path('<slug:slug>/<int:course_id>/comment/<int:id>/delete', views.CommentDeleteView.as_view(),
+    path('<slug:slug>/<int:id>/delete', login_required(views.CourseDeleteView.as_view()), name='course_delete'),
+    path('<slug:slug>/<int:id>/edit', login_required(views.CourseUpdateView.as_view()), name='course_update'),
+    path('<slug:slug>/<int:course_id>/comment/<int:id>/delete', login_required(views.CommentDeleteView.as_view()),
          name='delete_comment'),
-    path('<slug:slug>/<int:course_id>/comment/<int:id>/edit', views.CommentUpdateView.as_view(), name='update_comment'),
+    path('<slug:slug>/<int:course_id>/comment/<int:id>/edit', login_required(views.CommentUpdateView.as_view()),
+         name='update_comment'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),

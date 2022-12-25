@@ -75,18 +75,6 @@
 
                         <ul class="ul-check primary list-unstyled mb-5">
                             <li>The lowest price ever - only {{ course.price }} rub</li>
-                            <form action="{% url 'add_rating' %}" method="post" name="rating">
-                                <b>Рейтинг:</b>
-                                {% csrf_token %}
-                                <input type="hidden" value="{{ course.id }}" name="course">
-                                <span class="rating">
-                                    {% for k, v in star_form.fields.star.choices %}
-                                        <input id="rating{{ v }}" type="radio" name="star" value="{{ v }}">
-                                        <label for="rating{{ v }}"{{ k }}></label>
-                                    {% endfor %}
-                                </span>
-                                <span class="editContent">4.0</span>
-                            </form>
                         </ul>
 
                         <p>
@@ -103,36 +91,41 @@
                 <h3 class="mb-5">Comments {{ course.post_comments.all.count }}</h3>
                 {% for comment in course.course_comments.all %}
                     <ul class="comment-list">
-                        <li class="comment">
-                            <div class="vcard bio">
-                                <img src="/media/{{ course.image }}" alt="user-img">
+                        <div class="vcard bio">
+                            <div class="avatar-block">
+                                <img src="/media/{{ comment.user.image }}" alt="user-img"
+                                     style="width: 100px; height: 100px">
+                                <h3>Author: {{ comment.user }}</h3>
                             </div>
-                            <div class="comment-body">
-                                <h3>{{ comment.user }}</h3>
-                                <div class="meta">{{ comment.created_at }}</div>
-                                <p>{{ comment.text }}</p>
-                                {% if user.is_authenticated and user.id == comment.user_id %}
-                                    <a href="{% url 'update_comment' course.slug course.id comment.id %}">Edit comment
-                                    </a>
-                                    <form method="POST"
-                                          action="{% url 'delete_comment' course.slug course.id comment.id %}">
-                                        {% csrf_token %}
-                                        <button class="btn btn-success">Delete comment</button>
-                                    </form>
-                                {% endif %}
-                            </div>
-                        </li>
+                        </div>
+                        <div class="comment-body">
+                            <div class="meta">{{ comment.created_at }}</div>
+                            <p>{{ comment.text }}</p>
+                            {% if user.is_authenticated and user.id == comment.user_id %}
+                                <a href="{% url 'update_comment' course.slug course.id comment.id %}">Edit comment
+                                </a>
+                                <form method="POST"
+                                      action="{% url 'delete_comment' course.slug course.id comment.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-success">Delete comment</button>
+                                </form>
+                            {% endif %}
+                        </div>
+
                     </ul>
                 {% endfor %}
 
-                <div class="comment-form-wrap pt-5">
-                    <h3 class="mb-5">Leave a comment</h3>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button class="btn btn-success" style="margin-bottom: 100px">Add comment</button>
-                    </form>
-                </div>
+                {% if user.user.is_authenticated %}
+                    <div class="comment-form-wrap pt-5">
+                        <h3 class="mb-5">Leave a comment</h3>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn btn-success" style="margin-bottom: 100px">Add comment</button>
+                        </form>
+                    </div>
+                {% endif %}
+
             </div>
         </div>
 
