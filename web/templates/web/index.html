@@ -86,7 +86,12 @@
                                             src="/media/{{ course.image }}" alt="Image"
                                             class="img-fluid"></a>
                                     <div class="price">{{ course.price }} rub</div>
+                                    <div class="category"><h3>Title</h3></div>
                                     <div class="category"><h3>{{ course.title }}</h3></div>
+                                    <div class="category"><h3>Categories</h3></div>
+                                    {% for cat in category %}
+                                        <div class="category"><h3>{{ cat.name }}</h3></div>
+                                    {% endfor %}
                                 </figure>
                                 <div class="course-1-content pb-4">
 
