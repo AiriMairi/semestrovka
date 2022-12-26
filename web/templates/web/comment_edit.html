@@ -3,22 +3,33 @@
 
 {% block content %}
     <a href="{% url 'single_course' slug course_id %}">Back</a>
-    <section class="site-section" id="about-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 mb-3" style="margin-top: 40px"><h1>Edit comment</h1></div>
+    {% if user.is_authenticated and user.id == comment.user_id %}
+        <section class="site-section" id="about-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mb-3" style="margin-top: 40px"><h1>Edit comment</h1></div>
 
-                <div class="col-md-6 mb-5">
+                    <div class="col-md-6 mb-5">
 
-                    <form action="" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button class="btn btn-success">Save</button>
-                    </form>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn btn-success">Save</button>
+                        </form>
+
+                    </div>
 
                 </div>
-
             </div>
-        </div>
-    </section>
+        </section>
+    {% else %}
+        <section class="site-section" id="about-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mb-3" style="margin-top: 30px"><h1>Это не ваш комментарий и вы не можете его
+                        редактировать</h1></div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}
