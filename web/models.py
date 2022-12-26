@@ -51,6 +51,7 @@ class Course(models.Model):
     def __str__(self):
         return self.title
 
+
 class Comment(models.Model):
     course = models.ForeignKey(Course, verbose_name='курс', related_name='course_comments', on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name='пользователь', related_name='user_comments', on_delete=models.CASCADE)
@@ -60,28 +61,3 @@ class Comment(models.Model):
     class Meta:
         verbose_name_plural = 'Комментарии'
         verbose_name = 'Комментарий'
-
-
-class RatingStar(models.Model):
-    value = models.SmallIntegerField('Значение', default=0)
-
-    def __str__(self):
-        return f'{self.value}'
-
-    class Meta:
-        verbose_name = 'Звезда рейтинга'
-        verbose_name_plural = 'Здезды рейтинга'
-        ordering = ['-value']
-
-
-class Rating(models.Model):
-    course = models.ForeignKey(Course, verbose_name='курс', related_name='course_rating', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, verbose_name='пользователь', related_name='user_rating', on_delete=models.CASCADE)
-    star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, related_name='rating_star', verbose_name='звезда')
-
-    def __str__(self):
-        return f'{self.star} - {self.course}'
-
-    class Meta:
-        verbose_name = 'Рейтинг'
-        verbose_name_plural = 'Рейтинги'
